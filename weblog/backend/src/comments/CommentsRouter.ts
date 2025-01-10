@@ -45,7 +45,7 @@ commentsRouter.get('/:postId', async (req, res) => {
         const result = await dbConfig.pool().query(query, values);
 
         if (result.rows.length === 0) {
-            return res.status(404).json({message: 'No comments found for this post'});
+            return res.status(201).json({message: 'No comments found for this post'});
         }
 
         res.status(200).json(result.rows);

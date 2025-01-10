@@ -1,14 +1,18 @@
 import React from 'react';
 import {useAuth} from "../../utils/AuthContext";
+import {useNavigate} from "react-router-dom";
 
 const Header = () => {
+    const navigate = useNavigate();
     const {isLoggedIn, login, logout} = useAuth(); // Get auth state and handlers
 
     return (
         <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 w-full">
             <div className="container mx-auto px-4 py-2 flex justify-between items-center">
                 {/* Left Section - Site Text */}
-                <h1 className="text-lg font-semibold text-gray-800">
+                <h1 className="text-lg font-semibold text-gray-800"
+                    onClick={() => navigate("/")}
+                >
                     Aiyoub Weblog
                 </h1>
 
@@ -24,6 +28,15 @@ const Header = () => {
                             >
                                 Home
                             </button>
+
+                            <button
+                                className="px-4 py-2 text-sm font-medium text-gray-800 bg-gray-100
+                           border border-gray-300 rounded-md hover:bg-gray-200"
+                                onClick={() => navigate('/new-post')} // Replace with actual routing logic
+                            >
+                                Add a Post
+                            </button>
+
                             {/* Logout Button */}
                             <button
                                 className="px-4 py-2 text-sm font-medium text-white bg-red-500
@@ -38,8 +51,10 @@ const Header = () => {
                             {/* Login Button */}
                             <button
                                 className="px-4 py-2 text-sm font-medium text-gray-800 bg-gray-100
-                           border border-gray-300 rounded-md hover:bg-gray-200"
-                                onClick={login} // Call login function from context
+           border border-gray-300 rounded-md hover:bg-gray-200"
+                                onClick={() => {
+                                    navigate('/login');
+                                }}
                             >
                                 Login
                             </button>

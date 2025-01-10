@@ -46,9 +46,21 @@ postsRouter.post("/", async (req, res) => {
         VALUES ($1, $2, $3) RETURNING *
     `;
     const values = [postData.title, postData.content, postData.user_id];
-    const result = await dbConfig.pool().query(query, values);
-    return res.status(201).json(result.rows[0]);
-})
+
+    try {
+        const result = await dbConfig.pool().query(query, values);
+        return res.status(201).json({
+            success: true,
+            post: result.rows[0]
+        });
+    } catch (error) {
+        console.error('Error creating post:', error);
+        return res.status(500).json({
+            success: false,
+            error: 'Failed to create post'
+        });
+    }
+});
 
 postsRouter.get('/:postId', async (req, res) => {
     const postId = req.params.postId;
