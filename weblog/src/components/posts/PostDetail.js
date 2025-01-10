@@ -8,6 +8,26 @@ const PostDetails = () => {
     const [error, setError] = useState(null); // State for error handling
 
     useEffect(() => {
+        const fetchComments = async () => {
+            try {
+                // Fetch comments details from the API
+                const response = await fetch(`http://localhost:5000/api/comments/${postId}`);
+
+                if (!response.ok) {
+                    // Handle HTTP errors
+                    throw new Error(`Error: ${response.status} - ${response.statusText}`);
+                }
+
+                const commentsData = await response.json();
+                setPost((prevPost) => ({
+                    ...prevPost,
+                    comments: commentsData,
+                })); // Update the post state with fetched comments
+            } catch (err) {
+                setError(err.message); // Set error state if the fetch fails
+            }
+        }
+
         const fetchPostDetails = async () => {
             try {
                 // Fetch post details from the API
@@ -27,7 +47,7 @@ const PostDetails = () => {
             }
         };
 
-        fetchPostDetails();
+        fetchPostDetails().then(fetchComments);
     }, [postId]); // Dependency on postId to refetch details if it changes
 
     if (loading) {
@@ -51,7 +71,7 @@ const PostDetails = () => {
                 <ul>
                     {post.comments.map((comment) => (
                         <li key={comment.id}>
-                            <strong>{comment.author}:</strong> {comment.text}
+                            <strong>{comment.commentauthor}:</strong> {comment.content}
                         </li>
                     ))}
                 </ul>

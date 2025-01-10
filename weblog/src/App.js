@@ -5,6 +5,7 @@ import Footer from './components/footer/Footer';
 import Home from './components/Home';
 import './App.css';
 import PostDetails from "./components/posts/PostDetail";
+import {AuthProvider} from "./utils/AuthContext";
 
 const App = () => {
     const [posts, setPosts] = useState([]); // State to store fetched posts
@@ -29,15 +30,17 @@ const App = () => {
 
     return (
         <Router>
-            <div className="App">
-                <Header/>
-                {loading && <p>Loading...</p>}
-                <Routes>
-                    <Route path="/" element={<Home posts={posts}/>}/>
-                    <Route path="/posts/:postId" element={<PostDetails posts={posts}/>}/>
-                </Routes>
-                <Footer/>
-            </div>
+            <AuthProvider>
+                <div className="App">
+                    <Header/>
+                    {loading && <p>Loading...</p>}
+                    <Routes>
+                        <Route path="/" element={<Home posts={posts}/>}/>
+                        <Route path="/posts/:postId" element={<PostDetails posts={posts}/>}/>
+                    </Routes>
+                    <Footer/>
+                </div>
+            </AuthProvider>
         </Router>
     );
 };
