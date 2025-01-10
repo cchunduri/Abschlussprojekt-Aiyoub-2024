@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import PostList from './components/PostList';
+import Header from './components/header/Header';
+import Footer from './components/footer/Footer';
 import Home from './components/Home';
-import PostDetail from './components/PostDetail';
 import './App.css';
+import PostDetails from "./components/posts/PostDetail";
 
 const App = () => {
     const [posts, setPosts] = useState([]); // State to store fetched posts
@@ -32,15 +31,10 @@ const App = () => {
         <Router>
             <div className="App">
                 <Header/>
+                {loading && <p>Loading...</p>}
                 <Routes>
-                    <Route path="/" exact element={<Home posts={posts}/>}/>
-                    {/* Pass posts as props to PostList */}
-                    <Route
-                        path="/posts"
-                        exact
-                        element={loading ? <p>Loading posts...</p> : <PostList posts={posts}/>}
-                    />
-                    <Route path="/posts/:id" element={<PostDetail posts={posts}/>}/>
+                    <Route path="/" element={<Home posts={posts}/>}/>
+                    <Route path="/posts/:postId" element={<PostDetails posts={posts}/>}/>
                 </Routes>
                 <Footer/>
             </div>

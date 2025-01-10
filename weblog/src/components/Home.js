@@ -1,12 +1,12 @@
 import React from 'react';
-import Post from "./Post";
+import PostList from './posts/PostList';
 
-const Home = ({posts}) => (
-    <div>
-        {posts.map(post => (
-            <Post key={post.id} post={post}/>
-        ))}
-    </div>
-);
+const Home = ({posts}) => {
+    return (
+        <div>
+            <PostList posts={posts}/>
+        </div>
+    );
+};
 
 export default Home;
